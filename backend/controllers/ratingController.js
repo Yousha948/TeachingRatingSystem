@@ -3,15 +3,17 @@ const db = require('../config/db');
 
 const submitRating = (req, res) => {
   const { course_id, clarity, engagement, content, descriptive } = req.body;
-  
-  const query = `
-    INSERT INTO rating (course_id, clarity, engagement, content, descriptive, student_id)
-    VALUES (?, ?, ?, ?, ?, ?)
-  `;
+  const student_id = req.user.user_id; // Safely access user_id
 
-  const student_id = 1; // Use the logged-in student's ID here (for demo purposes, using a static ID)
+  console.log('Received data:', { course_id, clarity, engagement, content, descriptive, student_id });
+  console.log(student_id);
+  if (!course_id || !clarity || !engagement || !content || !student_id) {
+    return res.status(400).json({ error: 'Missing required fields' });
+  }
 
-  db.query(query, [course_id, clarity, engagement, content, descriptive, student_id], (err, result) => {
+  const query = "INSERT INTO rating (course_id, clarity, engagement, content, descriptive, user_id) VALUES (?, ?, ?, ?, ?, ?)";
+
+  db.query(query, [Number(course_id), clarity, engagement, content, descriptive, student_id], (err, result) => {
     if (err) {
       console.error('Error submitting rating:', err);
       return res.status(500).json({ error: 'Database error' });
@@ -19,5 +21,6 @@ const submitRating = (req, res) => {
     res.status(201).json({ message: 'Rating submitted successfully' });
   });
 };
+
 
 module.exports = { submitRating };

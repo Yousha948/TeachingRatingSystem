@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import axios from 'axios';
 const RatingForm = () => {
   const [semester, setSemester] = useState(''); // Track the selected semester
   const [courses, setCourses] = useState([]);
@@ -17,7 +17,7 @@ const RatingForm = () => {
 
   const fetchCourses = async (semester) => {
     try {
-      const response = await fetch(`http://localhost:5000/courses/courses?semester=${semester}`);
+      const response = await fetch(`http://localhost:5000/courses/${semester}`);
       const data = await response.json();
       setCourses(data);
     } catch (error) {
@@ -27,7 +27,7 @@ const RatingForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const ratingData = {
       course_id: selectedCourse,
       clarity: ratings.clarity,
@@ -35,24 +35,43 @@ const RatingForm = () => {
       content: ratings.content,
       descriptive: comment,
     };
-
+  
+    console.log('Rating Data:', ratingData);
+  
     try {
-      const response = await fetch('http://localhost:5000/api/ratings', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(ratingData),
-      });
-      if (response.ok) {
+      const token = localStorage.getItem('token'); // Retrieve the token from localStorage
+      if (!token) {
+        throw new Error('No token found. Please log in again.');
+      }
+  
+      const response = await axios.post(
+        `http://localhost:5000/ratings/submit`, // Use your actual endpoint
+        ratingData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Pass the token in Authorization header
+          },
+        }
+      );
+  
+      if (response.status === 201) {
         alert('Your rating has been submitted!');
+        // Reset the form after submission
+        setSemester('');
+        setCourses([]);
+        setSelectedCourse('');
+        setRatings({ clarity: 0, engagement: 0, content: 0 });
+        setComment('');
       } else {
         alert('There was an issue submitting your rating.');
       }
     } catch (error) {
       console.error('Error submitting rating:', error);
+      alert('Error submitting rating. Please try again.');
     }
   };
+  
+  
 
   return (
     <form onSubmit={handleSubmit}>
@@ -79,7 +98,7 @@ const RatingForm = () => {
           <select
             id="course"
             className="form-select"
-            value={courses}
+            value={selectedCourse} // Bind to selectedCourse state
             onChange={(e) => setSelectedCourse(e.target.value)}
           >
             <option value="">Select a course</option>
@@ -101,7 +120,7 @@ const RatingForm = () => {
           min="1"
           max="10"
           value={ratings.clarity}
-          onChange={(e) => setRatings({ ...ratings, clarity: e.target.value })}
+          onChange={(e) => setRatings({ ...ratings, clarity: parseInt(e.target.value) })}
         />
       </div>
 
@@ -114,7 +133,7 @@ const RatingForm = () => {
           min="1"
           max="10"
           value={ratings.engagement}
-          onChange={(e) => setRatings({ ...ratings, engagement: e.target.value })}
+          onChange={(e) => setRatings({ ...ratings, engagement: parseInt(e.target.value) })}
         />
       </div>
 
@@ -127,7 +146,7 @@ const RatingForm = () => {
           min="1"
           max="10"
           value={ratings.content}
-          onChange={(e) => setRatings({ ...ratings, content: e.target.value })}
+          onChange={(e) => setRatings({ ...ratings, content: parseInt(e.target.value) })}
         />
       </div>
 

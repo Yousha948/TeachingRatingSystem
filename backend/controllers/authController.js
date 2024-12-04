@@ -42,7 +42,7 @@ const registerUser = async (req, res) => {
 
 const loginUser = (req, res) => {
   const { email, password } = req.body;
-  db.query("SELECT * FROM user WHERE email = ?", [email], async (err, results) => {
+  db.query("SELECT * FROM user WHERE email = ?", [email], async (err, results) => { 
     if (err || results.length === 0) return res.status(401).send("Invalid credentials");
 
     const isValid = await bcrypt.compare(password, results[0].password);
