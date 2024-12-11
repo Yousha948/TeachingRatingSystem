@@ -38,6 +38,15 @@ const HomePage = ({ isLoggedIn }) => {
             </Link>
           </>
         )}
+        <br />
+        <br />
+        <>
+            <Link to="/dashboard">
+              <button className="btn btn-primary">Dashboard</button>
+            </Link>
+            
+          </>
+
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import LoginPage from './components/Login/LoginPage';
 import RegisterPage from './components/Login/RegisterPage';
 import RatingForm from './components/RatingForm';
 import RatingsPage from './components/RatingPage/RatingPage';
+import Dashboard from './components/dashboard/Dashboard';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -34,6 +35,10 @@ const App = () => {
         <Route
           path="/ratingspage"
           element={<RatingsPage />}
+        />
+        <Route
+          path="/dashboard"
+          element={<Dashboard />}
         />
       </Routes>
     </Router>

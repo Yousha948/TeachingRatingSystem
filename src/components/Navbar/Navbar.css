@@ -1,0 +1,54 @@
+/* Navbar styles */
+.navbar {
+    transition: all 0.3s ease-in-out;
+  }
+  
+  /* Slide-in effect for nav items */
+  .navbar-nav {
+    animation: slideIn 0.5s ease-out;
+  }
+  
+  @keyframes slideIn {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  
+  /* Fade-in effect for logout button */
+  .navbar .btn-outline-danger {
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
+  }
+  
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  /* Hover effects */
+  .navbar-nav .nav-link,
+  .navbar .btn {
+    transition: all 0.3s ease;
+  }
+  
+  .navbar-nav .nav-link:hover,
+  .navbar .btn:hover {
+    color: #fff;
+    background-color: #007bff;
+    transform: scale(1.05);
+  }
+  
+  /* Navbar brand hover effect */
+  .navbar-brand:hover {
+    color: #007bff;
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+  }
+  

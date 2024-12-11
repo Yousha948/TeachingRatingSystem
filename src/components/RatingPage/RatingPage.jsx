@@ -10,10 +10,10 @@ const RatingsPage = () => {
   const [teacherDetails, setTeacherDetails] = useState(null);
 
   useEffect(() => {
-    // Fetch all ratings from the API
+    // Fetch all teacher ratings from the API
     const fetchRatings = async () => {
       try {
-        const response = await fetch('http://localhost:5000/teachers/getAll'); // API endpoint to get teacher ratings
+        const response = await fetch('http://localhost:5000/teachers/getAll'); // API to get all teachers
         const data = await response.json();
         setRatings(data);
         setFilteredRatings(data);
@@ -24,7 +24,6 @@ const RatingsPage = () => {
     fetchRatings();
   }, []);
 
-  // Filter ratings based on the search term
   const handleSearch = (e) => {
     const term = e.target.value.toLowerCase();
     setSearchTerm(term);
@@ -36,8 +35,8 @@ const RatingsPage = () => {
   const fetchTeacherDetails = async (teacherId) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/teachers/details/${teacherId}`
-      ); // API endpoint to get teacher details by ID
+        `http://localhost:5000/teachers/getRat/${teacherId}` // API to get individual teacher ratings
+      );
       const data = await response.json();
       setTeacherDetails(data);
     } catch (error) {
@@ -122,21 +121,22 @@ const RatingsPage = () => {
               </div>
               <div className="modal-body">
                 {teacherDetails ? (
-                  teacherDetails.semesters.map((semester) => (
-                    <div key={semester.id} className="semester-details mb-4">
-                      <h6>Semester: {semester.name}</h6>
-                      {semester.courses.map((course) => (
-                        <div key={course.id} className="course-details mb-3">
-                          <p><b>Course:</b> {course.name}</p>
-                          <p><b>Rating:</b> {course.rating.toFixed(2)}</p>
-                          <p><b>Comments:</b></p>
-                          <ul>
-                            {course.comments.map((comment, index) => (
-                              <li key={index}>{comment}</li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
+                  teacherDetails.map((detail) => (
+                    <div key={detail.course_id} className="course-details mb-4">
+                      <h6>Semester: {detail.semester_name}</h6>
+                      <p>
+                        <b>Course:</b> {detail.course_name}
+                      </p>
+                      <p>
+                        <b>Ratings:</b> Clarity: {detail.clarity}, Engagement:{' '}
+                        {detail.engagement}, Content: {detail.content}
+                      </p>
+                      <p>
+                        <b>Comments:</b>
+                      </p>
+                      <ul>
+                        <li>{detail.comment}</li>
+                      </ul>
                     </div>
                   ))
                 ) : (

@@ -11,6 +11,9 @@
 .ratings-page h1 {
   text-align: center;
   margin-bottom: 20px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
 }
 
 .search-bar {
@@ -29,11 +32,36 @@
   padding: 15px;
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  border-radius: 5px;
+  border: 1px solid #e0e0e0;
 }
 
 .list-group-item:hover {
   background-color: #f9f9f9;
+  transform: scale(1.02);
+}
+
+.list-group-item h5 {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.btn.btn-primary {
+  font-size: 0.8rem; /* Smaller font for button */
+  padding: 5px 10px; /* Reduced padding for smaller size */
+  width: 100px; /* Explicitly set width to make the button narrower */
+  border-radius: 4px;
+  background-color: #007bff;
+  border: none;
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn.btn-primary:hover {
+  background-color: #0056b3;
+  transform: scale(1.1);
 }
 
 .teacher-profile {
@@ -46,13 +74,39 @@
 
 .teacher-profile h2 {
   margin-bottom: 10px;
+  font-size: 1.25rem;
+  font-weight: bold;
 }
 
 .teacher-profile h4 {
   margin-top: 20px;
   margin-bottom: 10px;
+  font-size: 1.1rem;
+  color: #444;
 }
 
 .teacher-profile .list-group {
   margin-top: 10px;
+}
+
+.modal-body h6 {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.course-details p {
+  margin: 5px 0;
+  line-height: 1.5;
+}
+
+.course-details ul {
+  padding-left: 20px;
+  margin: 10px 0;
+}
+
+.course-details ul li {
+  font-size: 0.9rem;
+  color: #666;
 }
